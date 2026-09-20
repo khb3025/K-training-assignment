@@ -13,8 +13,11 @@
 - password :assignment
 
 ### 실행명령
-- 프로젝트 루트에서 진행
-- 명령어 : docker-compose up
+- assignment 폴더에서 진행
+- 명령어 : 
+  - cd assignment
+  - gradlew clean build -x test
+  - docker-compose up
 
 
 ## 구조 설명
