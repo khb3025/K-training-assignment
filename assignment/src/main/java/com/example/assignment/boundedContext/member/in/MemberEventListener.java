@@ -28,16 +28,14 @@ public class MemberEventListener {
     @TransactionalEventListener(phase = AFTER_COMMIT)
     @Transactional(propagation = REQUIRES_NEW)
     public void handle(PostCreatedEvent event){
-        Member postAuthor = memberFacade.findById(event.getPostDto().getAuthorId())
-                .orElseThrow(
-                        () -> {
-                            RuntimeException e = new RuntimeException(
-                                    "Member not found. authorId=" + event.getPostDto().getAuthorId()
-                            );
-                            log.error("MemberEventListener 회원 조회 실패",e);
-                            return e;
-                        }
-                );
+        Member postAuthor = memberFacade.findById(event.getPostDto().getAuthorId()).getData();
+        if(postAuthor == null) {
+            RuntimeException e = new RuntimeException(
+                    "Member not found. authorId=" + event.getPostDto().getAuthorId()
+            );
+            log.error("MemberEventListener 회원 조회 실패",e);
+            return;
+        }
         postAuthor.increaseActivityScore(3);
 
     }
@@ -45,16 +43,14 @@ public class MemberEventListener {
     @TransactionalEventListener(phase = AFTER_COMMIT)
     @Transactional(propagation = REQUIRES_NEW)
     public void handle(PostCommentCreatedEvent event){
-        Member postCommentAuthor = memberFacade.findById(event.getPostCommentDto().getAuthorId())
-                .orElseThrow(
-                        () -> {
-                            RuntimeException e = new RuntimeException(
-                                    "Member not found. authorId=" + event.getPostCommentDto().getAuthorId()
-                            );
-                            log.error("MemberEventListener 회원 조회 실패",e);
-                            return e;
-                        }
-                );
+        Member postCommentAuthor = memberFacade.findById(event.getPostCommentDto().getAuthorId()).getData();
+        if(postCommentAuthor == null) {
+            RuntimeException e = new RuntimeException(
+                    "Member not found. authorId=" + event.getPostCommentDto().getAuthorId()
+            );
+            log.error("MemberEventListener 회원 조회 실패",e);
+            return;
+        }
         postCommentAuthor.increaseActivityScore(1);
     }
 }

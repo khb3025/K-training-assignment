@@ -2,6 +2,8 @@ package com.example.assignment.boundedContext.member.domain;
 
 import com.example.assignment.global.publisher.EventPublisher;
 import com.example.assignment.share.member.domain.SourceMember;
+import com.example.assignment.share.member.dto.MemberDto;
+import com.example.assignment.share.member.event.MemberModifiedEvent;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -21,7 +23,10 @@ public class Member extends SourceMember {
         super(username, nickname, password, activityScore);
     }
 
-    public void increaseActivityScore(int amount) {
+    public int increaseActivityScore(int amount) {
+        if (amount <= 0) return getActivityScore();
         setActivityScore(getActivityScore() + amount);
+        publishEvent(new MemberModifiedEvent(new MemberDto(this)));
+        return getActivityScore();
     }
 }
