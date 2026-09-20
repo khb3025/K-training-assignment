@@ -1,25 +1,43 @@
 package com.example.assignment.boundedContext.post.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.assignment.boundedContext.member.domain.Member;
+import com.example.assignment.global.jpa.entity.BaseIdAndTime;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 @NoArgsConstructor
 @Getter
-public class Post {
-    @Id @GeneratedValue(strategy = IDENTITY)
-    private Long id;
+@Table(name = "POST_POST")
+public class Post extends BaseIdAndTime {
+
+    @ManyToOne
+    private Member author;
     private String title;
+    @Column( columnDefinition = "LONGTEXT")
     private String content;
 
-    public Post(String title, String content) {
+    @OneToMany(
+        mappedBy = "post",
+        cascade = { CascadeType.REMOVE, CascadeType.PERSIST },
+        orphanRemoval = true
+    )
+    private List<PostComment> comments;
+
+    public Post(Member author, String title, String content) {
+        this.author = author;
         this.title = title;
         this.content = content;
+    }
+
+    public void addComment(Member author, String content) {
+        this.comments.add(
+            new PostComment(this, author, content)
+        );
     }
 }
