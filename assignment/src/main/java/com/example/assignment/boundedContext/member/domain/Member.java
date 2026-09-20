@@ -1,5 +1,6 @@
 package com.example.assignment.boundedContext.member.domain;
 
+import com.example.assignment.global.publisher.EventPublisher;
 import com.example.assignment.share.member.domain.SourceMember;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -18,5 +19,9 @@ public class Member extends SourceMember {
             int activityScore
     ){
         super(username, nickname, password, activityScore);
+    }
+
+    public void increaseActivityScore(int amount) {
+        setActivityScore(getActivityScore() + amount);
     }
 }

@@ -25,4 +25,8 @@ public class MemberFacade {
     public Optional<Member> findByUsername(String username) {
         return memberUseCase.findByUsername(username);
     }
+
+    public Optional<Member> findById(long id) {
+        return memberUseCase.findById(id);
+    }
 }

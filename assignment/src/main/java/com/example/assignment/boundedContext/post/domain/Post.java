@@ -2,6 +2,8 @@ package com.example.assignment.boundedContext.post.domain;
 
 import com.example.assignment.boundedContext.member.domain.Member;
 import com.example.assignment.global.jpa.entity.BaseIdAndTime;
+import com.example.assignment.share.post.dto.PostCommentDto;
+import com.example.assignment.share.post.event.PostCommentCreatedEvent;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,8 +38,16 @@ public class Post extends BaseIdAndTime {
     }
 
     public void addComment(Member author, String content) {
+        PostComment comment = new PostComment(this, author, content);
+
         this.comments.add(
-            new PostComment(this, author, content)
+            comment
+        );
+        // 이벤트 발행
+        super.publishEvent(
+            new PostCommentCreatedEvent(
+                new PostCommentDto(comment)
+            )
         );
     }
 }

@@ -2,6 +2,7 @@ package com.example.assignment.boundedContext.post.app;
 
 import com.example.assignment.boundedContext.member.domain.Member;
 import com.example.assignment.boundedContext.post.domain.Post;
+import com.example.assignment.global.RsData.RsData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +16,7 @@ public class PostFacade {
     private final PostUseCase postUseCase;
 
     @Transactional
-    public Optional<Post> write(
+    public RsData<Post> write(
             Member author,
             String title,
             String content

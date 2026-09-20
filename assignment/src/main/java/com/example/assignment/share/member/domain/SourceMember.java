@@ -1,8 +1,10 @@
 package com.example.assignment.share.member.domain;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -10,6 +12,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
+import static lombok.AccessLevel.PROTECTED;
 
 @MappedSuperclass
 @NoArgsConstructor
@@ -34,4 +37,5 @@ public class SourceMember extends BaseMember{
     ) {
         super(username, nickname, password, activityScore);
     }
+
 }

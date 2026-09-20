@@ -1,5 +1,6 @@
 package com.example.assignment.global.jpa.entity;
 
+import com.example.assignment.global.global.GlobalConfig;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
@@ -20,5 +21,7 @@ public abstract class BaseEntity {
     public String getModelTypeCode() {
         return this.getClass().getSimpleName();
     }
-
+    public void publishEvent(Object event) {
+        GlobalConfig.getEventPublisher().publish(event);
+    }
 }
